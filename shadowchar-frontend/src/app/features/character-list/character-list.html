@@ -1,0 +1,17 @@
+<div class="container">
+  <h1>Meus Personagens</h1>
+
+  @if (characters$ | async; as characters) {
+    <ul class="character-list">
+      @for (char of characters; track char.id) {
+        <li class="character-item">
+          <strong>{{ char.name }}</strong> ({{ char.ancestry }})
+        </li>
+      } @empty {
+        <p>Nenhum personagem encontrado.</p>
+      }
+    </ul>
+  } @else {
+    <p>Carregando personagens...</p>
+  }
+</div>
