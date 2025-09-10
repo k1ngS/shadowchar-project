@@ -1,44 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CharactersService {
-  private readonly characters = [
-    {
-      id: 1,
-      name: 'Elara, a Veloz',
-      ancestry: 'Humano',
-    },
-    {
-      id: 2,
-      name: 'Grom, Punho de Pedra',
-      ancestry: 'Orc',
-    },
-    {
-      id: 3,
-      name: 'Sylas, o Sábio',
-      ancestry: 'Elfo',
-    },
-  ];
+
+  constructor(private prisma: PrismaService) { }
 
   create(createCharacterDto: CreateCharacterDto) {
-    return 'This action adds a new character';
+    return this.prisma.character.create({ data: createCharacterDto });
   }
 
   findAll() {
-    return this.characters;
+    return this.prisma.character.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} character`;
+    return this.prisma.character.findUnique({ where: { id } });
   }
 
   update(id: number, updateCharacterDto: UpdateCharacterDto) {
-    return `This action updates a #${id} character`;
+    return this.prisma.character.update({
+      where: { id },
+      data: updateCharacterDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} character`;
+    return this.prisma.character.delete({ where: { id } });
   }
 }
