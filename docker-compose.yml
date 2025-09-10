@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: "postgres:16"
+    container_name: "shadowchar-db"
+    environment:
+      - POSTGRES_USER=shadow_user
+      - POSTGRES_PASSWORD=shadowchar_password
+      - POSTGRES_DB=shadowchar_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - shadowchar-data:/var/lib/postgresql/data
+
+volumes:
+  shadowchar-data:
