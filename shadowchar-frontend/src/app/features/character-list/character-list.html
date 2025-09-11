@@ -1,11 +1,16 @@
 <div class="container">
   <h1>Meus Personagens</h1>
 
+  <a routerLink="/characters/new">Novo Personagem</a>
+
   @if (characters$ | async; as characters) {
     <ul class="character-list">
       @for (char of characters; track char.id) {
         <li class="character-item">
-          <strong>{{ char.name }}</strong> ({{ char.ancestry }})
+          <a [routerLink]="['/characters', char.id]">
+            <strong>{{ char.name }}</strong> ({{ char.ancestry }})
+          </a>
+          <button (click)="deleteCharacter(char.id)" class="delete-button">Deletar</button>
         </li>
       } @empty {
         <p>Nenhum personagem encontrado.</p>

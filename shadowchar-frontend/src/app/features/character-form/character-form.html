@@ -1,0 +1,16 @@
+<div class="container">
+  <h2>Novo Personagem</h2>
+  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Nome:</label>
+      <input id="name" formControlName="name" type="text" name="name" />
+    </div>
+
+    <div>
+      <label for="ancestry">Ancestralidade:</label>
+      <input id="ancestry" formControlName="ancestry" type="text" name="ancestry" />
+    </div>
+
+    <button type="submit" [disabled]="!characterForm.valid">Salvar Personagem</button>
+  </form>
+</div>

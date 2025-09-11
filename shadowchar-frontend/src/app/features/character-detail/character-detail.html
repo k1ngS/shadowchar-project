@@ -1,0 +1,18 @@
+@if (character$ | async; as char) {
+  <div class="container">
+    <h2>{{ char.name }}</h2>
+    <p><strong>Ancestralidade:</strong> {{ char.ancestry }}</p>
+
+    <h3>Atributos</h3>
+    <ul>
+      <li><strong>Força:</strong> {{ char.strength }}</li>
+      <li><strong>Agilidade:</strong> {{ char.agility }}</li>
+      <li><strong>Intelecto:</strong> {{ char.intellect }}</li>
+      <li><strong>Vontade:</strong> {{ char.will }}</li>
+    </ul>
+    <a [routerLink]="['/characters', char.id, 'edit']" class="edit-button">Editar</a>
+    <a routerLink="/characters">Voltar para a lista</a>
+  </div>
+} @else {
+  <p>Carregando detalhes do personagem...</p>
+}
