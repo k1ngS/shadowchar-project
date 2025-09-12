@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('characters')
 export class CharactersController {
@@ -21,6 +23,7 @@ export class CharactersController {
     return this.charactersService.create(createCharacterDto, mockUserId);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.charactersService.findAll();

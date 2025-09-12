@@ -21,4 +21,16 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  @ApiOperation({ summary: 'Realiza o login de um usuário' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Login bem-sucedido, retorna o token de acesso.',
+  })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas.' })
+  async login(@Request() req, @Body() loginDto: LoginDto) {
+    return this.authService.login(req.user);
+  }
 }
