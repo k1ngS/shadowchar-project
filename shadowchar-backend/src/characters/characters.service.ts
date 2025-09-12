@@ -5,11 +5,19 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CharactersService {
+  constructor(private prisma: PrismaService) {}
 
-  constructor(private prisma: PrismaService) { }
-
-  create(createCharacterDto: CreateCharacterDto) {
-    return this.prisma.character.create({ data: createCharacterDto });
+  create(createCharacterDto: CreateCharacterDto, userId: number) {
+    return this.prisma.character.create({
+      data: {
+        ...createCharacterDto,
+        owner: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
   }
 
   findAll() {
