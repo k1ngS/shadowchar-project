@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('characters')
 export class CharactersController {
@@ -9,9 +19,11 @@ export class CharactersController {
 
   @Post()
   create(@Body() createCharacterDto: CreateCharacterDto) {
-    return this.charactersService.create(createCharacterDto);
+    const mockUserId = 1;
+    return this.charactersService.create(createCharacterDto, mockUserId);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.charactersService.findAll();
@@ -23,7 +35,10 @@ export class CharactersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCharacterDto: UpdateCharacterDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCharacterDto: UpdateCharacterDto,
+  ) {
     return this.charactersService.update(+id, updateCharacterDto);
   }
 

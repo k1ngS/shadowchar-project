@@ -14,6 +14,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  characters Character[]
+}
+
 model Character {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -27,4 +37,7 @@ model Character {
   agility   Int @default(10)
   intellect Int @default(10)
   will      Int @default(10)
+
+  owner   User @relation(fields: [ownerId], references: [id])
+  ownerId Int
 }
