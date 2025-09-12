@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -20,22 +20,43 @@ export class CharactersService {
     });
   }
 
-  findAll() {
-    return this.prisma.character.findMany();
+  findAll(userId: number) {
+    return this.prisma.character.findMany({
+      where: {
+        ownerId: userId,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return this.prisma.character.findUnique({ where: { id } });
+  async findOne(id: number, userId: number) {
+    const character = await this.prisma.character.findUnique({
+      where: { id, ownerId: userId },
+    });
+
+    if (!character) {
+      throw new NotFoundException(
+        `Personagem com ID ${id} não encontrado ou não pertence a você.`,
+      );
+    }
+    return character;
   }
 
-  update(id: number, updateCharacterDto: UpdateCharacterDto) {
+  async update(
+    id: number,
+    updateCharacterDto: UpdateCharacterDto,
+    userId: number,
+  ) {
+    await this.findOne(id, userId);
+
     return this.prisma.character.update({
       where: { id },
       data: updateCharacterDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number, userId: number) {
+    await this.findOne(id, userId);
+
     return this.prisma.character.delete({ where: { id } });
   }
 }
