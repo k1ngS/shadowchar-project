@@ -2,10 +2,22 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Character } from './entities/character.entity';
+import { Character as CharacterModel } from 'generated/prisma';
 
 @Injectable()
 export class CharactersService {
   constructor(private prisma: PrismaService) {}
+
+  private mapToEntity(character: CharacterModel): Character {
+    return {
+      ...character,
+      health: character.strength,
+      insanity: character.will,
+      corruption: 0,
+      defense: character.agility,
+    };
+  }
 
   create(createCharacterDto: CreateCharacterDto, userId: number) {
     return this.prisma.character.create({
@@ -20,25 +32,26 @@ export class CharactersService {
     });
   }
 
-  findAll(userId: number) {
-    return this.prisma.character.findMany({
+  async findAll(userId: number): Promise<Character[]> {
+    const charactersFromDb = await this.prisma.character.findMany({
       where: {
         ownerId: userId,
       },
     });
+    return charactersFromDb.map(this.mapToEntity);
   }
 
-  async findOne(id: number, userId: number) {
-    const character = await this.prisma.character.findUnique({
+  async findOne(id: number, userId: number): Promise<Character> {
+    const charactersFromDb = await this.prisma.character.findUnique({
       where: { id, ownerId: userId },
     });
 
-    if (!character) {
+    if (!charactersFromDb) {
       throw new NotFoundException(
         `Personagem com ID ${id} não encontrado ou não pertence a você.`,
       );
     }
-    return character;
+    return this.mapToEntity(charactersFromDb);
   }
 
   async update(
