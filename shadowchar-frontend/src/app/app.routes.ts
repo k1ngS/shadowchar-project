@@ -5,7 +5,7 @@ import { CharacterDetail } from './features/character-detail/character-detail';
 import { Register } from './features/auth/register/register';
 import { Login } from './features/auth/login/login';
 import { authGuard } from './core/auth-guard';
-import { Profile } from './features/profile/profile';
+import { ProfileComponent as Profile } from './features/profile/profile';
 
 export const routes: Routes = [
   { path: 'register', component: Register },
