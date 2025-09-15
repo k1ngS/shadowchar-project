@@ -1,0 +1,33 @@
+<h4>Talentos</h4>
+
+@if (talents$ | async; as talents) {
+  <ul class="talent-list">
+    @for (talent of talents; track talent.id) {
+      <li>
+        <strong>{{ talent.name }}</strong>
+        @if (talent.description) {
+          <p>{{ talent.description }}</p>
+        }
+      </li>
+    } @empty {
+      <p>Nenhum talento adicionado ainda.</p>
+    }
+  </ul>
+} @else {
+  <p>Carregando talentos...</p>
+}
+
+<hr />
+
+<h5>Adicionar Novo Talento</h5>
+<form [formGroup]="talentForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="talent-name">Nome:</label>
+    <input id="talent-name" type="text" formControlName="name" />
+  </div>
+  <div>
+    <label for="talent-desc">Descrição:</label>
+    <textarea id="talent-desc" formControlName="description"></textarea>
+  </div>
+  <button type="submit" [disabled]="!talentForm.valid">Adicionar</button>
+</form>
