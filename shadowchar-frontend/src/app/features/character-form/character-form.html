@@ -1,16 +1,23 @@
-<div class="container">
-  <h2>Novo Personagem</h2>
-  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="name">Nome:</label>
-      <input id="name" formControlName="name" type="text" name="name" />
-    </div>
+<div class="form-container">
+  <mat-card>
+    <mat-card-title>{{ isEditMode ? 'Editar Personagem' : 'Novo Personagem' }}</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nome</mat-label>
+          <input matInput id="name" formControlName="name" type="text" />
+        </mat-form-field>
 
-    <div>
-      <label for="ancestry">Ancestralidade:</label>
-      <input id="ancestry" formControlName="ancestry" type="text" name="ancestry" />
-    </div>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Ancestralidade</mat-label>
+          <input matInput id="ancestry" formControlName="ancestry" type="text" />
+        </mat-form-field>
 
-    <button type="submit" [disabled]="!characterForm.valid">Salvar Personagem</button>
-  </form>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!characterForm.valid">
+          Salvar Personagem
+        </button>
+        <a mat-button routerLink="/characters">Cancelar</a>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

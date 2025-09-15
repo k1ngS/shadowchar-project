@@ -36,4 +36,8 @@ export class Auth {
   getToken(): string | null {
     return localStorage.getItem('access_token');
   }
+
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`);
+  }
 }

@@ -3,11 +3,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CharacterService } from '../character';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { Notification } from '../../core/notification';
 
 @Component({
   selector: 'app-character-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './character-form.html',
   styleUrl: './character-form.scss',
 })
@@ -21,6 +32,7 @@ export class CharacterForm implements OnInit {
     private characterService: CharacterService,
     private router: Router,
     private route: ActivatedRoute,
+    private notificationService: Notification,
   ) {
     this.characterForm = this.fb.group({
       name: ['', Validators.required],
@@ -54,10 +66,12 @@ export class CharacterForm implements OnInit {
         this.characterService
           .updateCharacter(this.characterId, this.characterForm.value)
           .subscribe(() => {
+            this.notificationService.showSuccess('Personagem atualizado com sucesso!');
             this.router.navigate(['/characters', this.characterId]);
           });
       } else {
         this.characterService.createCharacter(this.characterForm.value as any).subscribe(() => {
+          this.notificationService.showSuccess('Personagem criado com sucesso!');
           this.router.navigate(['/characters']);
         });
       }

@@ -1,0 +1,81 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  padding-bottom: 80px;
+}
+
+.header {
+  grid-column: 1 / -1;
+  margin-bottom: 24px;
+  h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0;
+  }
+}
+
+.character-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.character-card {
+  cursor: pointer;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.character-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+// O spacer continua útil dentro do mat-card-actions
+.spacer {
+  flex: 1 1 auto;
+}
+
+.empty-state {
+  grid-column: 1 / -1; // Faz o estado de vazio ocupar toda a largura do grid
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: rgba(0, 0, 0, 0.54);
+  text-align: center;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+  }
+  span {
+    font-size: 1rem;
+  }
+}
+
+.fab-add-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+}

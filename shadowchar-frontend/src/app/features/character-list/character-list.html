@@ -1,22 +1,52 @@
-<div class="container">
-  <h1>Meus Personagens</h1>
+@if (characters$ | async; as characters) {
+  <div class="character-grid-container">
+    <div class="header">
+      <h2>Meus Personagens</h2>
+    </div>
 
-  <a routerLink="/characters/new">Novo Personagem</a>
-
-  @if (characters$ | async; as characters) {
-    <ul class="character-list">
-      @for (char of characters; track char.id) {
-        <li class="character-item">
-          <a [routerLink]="['/characters', char.id]">
-            <strong>{{ char.name }}</strong> ({{ char.ancestry }})
-          </a>
-          <button (click)="deleteCharacter(char.id)" class="delete-button">Deletar</button>
-        </li>
-      } @empty {
+    @for (char of characters; track char.id) {
+      <mat-card class="character-card" [routerLink]="['/characters', char.id]">
+        <mat-card-header>
+          <div mat-card-avatar class="character-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <mat-card-title>{{ char.name }}</mat-card-title>
+          <mat-card-subtitle>{{ char.ancestry }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <span class="spacer"></span>
+          <button
+            mat-icon-button
+            color="warn"
+            matTooltip="Deletar personagem"
+            (click)="deleteCharacter(char.id); $event.stopPropagation()"
+            aria-label="Deletar personagem"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>group_add</mat-icon>
         <p>Nenhum personagem encontrado.</p>
-      }
-    </ul>
-  } @else {
-    <p>Carregando personagens...</p>
-  }
-</div>
+        <span>Crie o primeiro para começar a aventura!</span>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+}
+
+<a
+  mat-fab
+  color="primary"
+  routerLink="/characters/new"
+  class="fab-add-button"
+  matTooltip="Adicionar novo personagem"
+  aria-label="Adicionar novo personagem"
+>
+  <mat-icon>add</mat-icon>
+</a>
