@@ -3,11 +3,21 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CharacterService } from '../character';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-character-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './character-form.html',
   styleUrl: './character-form.scss',
 })

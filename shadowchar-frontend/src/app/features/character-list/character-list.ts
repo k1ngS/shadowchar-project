@@ -3,10 +3,26 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Character, CharacterService } from '../character';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-character-list',
-  imports: [AsyncPipe, RouterLink],
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    MatCardModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './character-list.html',
   styleUrl: './character-list.scss',
 })

@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -32,5 +39,16 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Credenciais inválidas.' })
   async login(@Request() req, @Body() loginDto: LoginDto) {
     return this.authService.login(req.user);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
+  @ApiOperation({ summary: 'Obtém o perfil do usuário logado ' })
+  @ApiResponse({
+    status: 200,
+    description: 'Perfil do usuário retornado com sucesso.',
+  })
+  getProfile(@Request() req) {
+    return this.authService.getProfile(req.user);
   }
 }

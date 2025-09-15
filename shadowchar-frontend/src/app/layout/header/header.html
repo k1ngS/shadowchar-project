@@ -1,6 +1,18 @@
-<header>
-  <h1>Shadowchar</h1>
-  <nav>
-    <button (click)="logout()">Logout</button>
-  </nav>
-</header>
+<mat-toolbar color="primary">
+  <a mat-button routerLink="/">
+    <mat-icon>shield</mat-icon>
+    <span>Shadowchar</span>
+  </a>
+  <span class="spacer"></span>
+  <a
+    mat-icon-button
+    routerLink="/profile"
+    matTooltip="Meu Perfil"
+    aria-label="Link para o perfil do usuário"
+  >
+    <mat-icon>account_circle</mat-icon>
+  </a>
+  <button mat-icon-button (click)="logout()" matTooltip="Logout" aria-label="Botão de Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

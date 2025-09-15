@@ -1,17 +1,29 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../../core/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
 export class Register {
   registerForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
