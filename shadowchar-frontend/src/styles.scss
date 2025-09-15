@@ -80,5 +80,17 @@ body {
   padding: 2rem;
 }
 
+.snackbar-success {
+  --mdc-snackbar-container-color: #4CAF50;
+  --mat-mdc-snack-bar-button-color: #FFFFFF;
+  --mdc-snackbar-supporting-text-color: #FFFFFF;
+}
+
+.snackbar-error {
+  --mdc-snackbar-container-color: #F44336;
+  --mat-mdc-snack-bar-button-color: #FFFFFF;
+  --mdc-snackbar-supporting-text-color: #FFFFFF;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
