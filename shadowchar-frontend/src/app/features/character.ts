@@ -11,6 +11,11 @@ export interface Character {
   agility?: number;
   intellect?: number;
   will?: number;
+
+  health?: number;
+  insanity?: number;
+  corruption?: number;
+  defense?: number;
 }
 
 @Injectable({

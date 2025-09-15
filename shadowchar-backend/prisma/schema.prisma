@@ -40,4 +40,15 @@ model Character {
 
   owner   User @relation(fields: [ownerId], references: [id])
   ownerId Int
+
+  talents Talent[]
+}
+
+model Talent {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
 }
