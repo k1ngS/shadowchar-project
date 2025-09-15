@@ -1,18 +1,44 @@
 @if (character$ | async; as char) {
-  <div class="container">
-    <h2>{{ char.name }}</h2>
-    <p><strong>Ancestralidade:</strong> {{ char.ancestry }}</p>
+  <div class="detail-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ char.name }}</mat-card-title>
+        <mat-card-subtitle>{{ char.ancestry }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stats-grid">
+          <div>
+            <h3>Atributos Derivados</h3>
+            <mat-list role="list">
+              <mat-list-item role="listitem">Vida: {{ char.health }}</mat-list-item>
+              <mat-list-item role="listitem">Defesa: {{ char.defense }}</mat-list-item>
+              <mat-list-item role="listitem">Insanidade: {{ char.insanity }}</mat-list-item>
+              <mat-list-item role="listitem">Corrupção: {{ char.corruption }}</mat-list-item>
+            </mat-list>
+          </div>
+          <div>
+            <h3>Atributos Principais</h3>
+            <mat-list role="list">
+              <mat-list-item role="listitem">Força: {{ char.strength }}</mat-list-item>
+              <mat-list-item role="listitem">Agilidade: {{ char.agility }}</mat-list-item>
+              <mat-list-item role="listitem">Intelecto: {{ char.intellect }}</mat-list-item>
+              <mat-list-item role="listitem">Vontade: {{ char.will }}</mat-list-item>
+            </mat-list>
+          </div>
+        </div>
 
-    <h3>Atributos</h3>
-    <ul>
-      <li><strong>Força:</strong> {{ char.strength }}</li>
-      <li><strong>Agilidade:</strong> {{ char.agility }}</li>
-      <li><strong>Intelecto:</strong> {{ char.intellect }}</li>
-      <li><strong>Vontade:</strong> {{ char.will }}</li>
-    </ul>
-    <a [routerLink]="['/characters', char.id, 'edit']" class="edit-button">Editar</a>
-    <a routerLink="/characters">Voltar para a lista</a>
+        <mat-divider></mat-divider>
+
+        <app-talent-manager [characterId]="char.id"></app-talent-manager>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-flat-button color="accent" [routerLink]="['/characters', char.id, 'edit']">Editar</a>
+        <a mat-button routerLink="/characters">Voltar para a lista</a>
+      </mat-card-actions>
+    </mat-card>
   </div>
 } @else {
-  <p>Carregando detalhes do personagem...</p>
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 }
