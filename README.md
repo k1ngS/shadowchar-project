@@ -1,233 +1,142 @@
 # Shadowchar: Ficha Automatizada para Shadow of the Demon Lord
 
-Este projeto visa desenvolver uma ficha de personagem automatizada e editável para o sistema de RPG **Shadow of the Demon Lord**, integrada a uma aplicação web. O objetivo é permitir que mestres e jogadores gerenciem personagens de forma eficiente e automatizada, facilitando a criação, o acompanhamento e a validação das regras do jogo.
+> Um projeto full-stack para criar e gerenciar fichas de personagem para o RPG "Shadow of the Demon Lord", construído com NestJS e Angular.
 
-## 🏗️ Arquitetura do Projeto
+## ✨ Visão Geral
 
-O projeto é dividido em duas aplicações principais:
-
-```
-shadowchar-project/
-├── shadowchar-frontend/    # Frontend em Angular
-└── shadowchar-backend/     # Backend em NestJS
-```
-
-### Frontend (Angular 20)
-- **Framework**: Angular 20.2.0 com TypeScript
-- **Arquitetura**: Componentes standalone com roteamento
-- **HTTP Client**: Para comunicação com a API
-- **Estrutura modular**: Features organizadas por funcionalidade
-
-### Backend (NestJS)
-- **Framework**: NestJS 11 com TypeScript
-- **Arquitetura**: Modular com controllers, services e DTOs
-- **API**: RESTful endpoints para gerenciamento de personagens
-- **Banco de dados**: Em memória (para desenvolvimento inicial)
+Este projeto visa desenvolver uma ficha de personagem automatizada e editável para o sistema de RPG *Shadow of the Demon Lord*, integrada a um website. O objetivo é permitir que mestres e jogadores gerenciem personagens de forma eficiente e automatizada, facilitando a criação, o acompanhamento e a validação das regras do jogo.
 
 ## 🚀 Tecnologias Utilizadas
 
-### Frontend
-- **Angular**: 20.2.0 - Framework principal
-- **TypeScript**: 5.9.2 - Linguagem de programação
-- **RxJS**: 7.8.0 - Programação reativa
-- **Angular Router**: Roteamento SPA
-- **Jasmine & Karma**: Testes unitários
-
-### Backend
-- **NestJS**: 11.0.1 - Framework Node.js
-- **TypeScript**: 5.7.3 - Linguagem de programação
-- **RxJS**: 7.8.1 - Programação reativa
-- **Jest**: 30.0.0 - Framework de testes
-- **ESLint & Prettier**: Qualidade e formatação de código
-
-## 📋 Funcionalidades Implementadas
-
-### ✅ **Listagem de Personagens**
-- Visualização de personagens existentes
-- Interface responsiva com loading states
-- Integração completa frontend-backend
-
-### ✅ **API RESTful**
-- Endpoints para CRUD de personagens
-- Estrutura modular e escalável
-- DTOs para validação de dados
-
-### ✅ **Estrutura Base**
-- Configuração completa do projeto
-- Sistema de roteamento
-- Comunicação HTTP entre camadas
-- Testes unitários configurados
-
-## 🔄 Estado Atual do Desenvolvimento
-
-### **Implementado**
-- [x] Setup inicial do projeto (Frontend + Backend)
-- [x] Estrutura modular do NestJS
-- [x] Componentes Angular standalone
-- [x] Service de personagens no frontend
-- [x] Controller e Service de personagens no backend
-- [x] Listagem básica de personagens
-- [x] Comunicação HTTP entre camadas
-
-### **Em Desenvolvimento/Planejado**
-- [ ] Modelo completo de personagem (atributos, ancestralidade, caminhos)
-- [ ] Persistência em banco de dados
-- [ ] Criação de personagens com wizard
-- [ ] Cálculos automatizados de características derivadas
-- [ ] Validação de regras do jogo
-- [ ] Sistema de autenticação
-- [ ] Exportação de fichas (PDF/JSON)
-- [ ] Interface de edição de personagens
-- [ ] Gerenciamento de inventário e magias
-
-## 🛠️ Como Executar o Projeto
-
-### **Pré-requisitos**
-- Node.js (versão 18 ou superior)
-- npm ou yarn
-
-### **Backend (NestJS)**
-
-```bash
-cd shadowchar-backend
-
-# Instalar dependências
-npm install
-
-# Executar em modo desenvolvimento
-npm run start:dev
-
-# O backend estará disponível em http://localhost:3000
-```
-
-### **Frontend (Angular)**
-
-```bash
-cd shadowchar-frontend
-
-# Instalar dependências
-npm install
-
-# Executar em modo desenvolvimento
-ng serve
-
-# O frontend estará disponível em http://localhost:4200
-```
-
-### **Executando Ambos**
-
-1. Em um terminal, execute o backend
-2. Em outro terminal, execute o frontend
-3. Acesse `http://localhost:4200` para ver a aplicação
-
-## 📁 Estrutura do Código
-
-### **Backend Structure**
-```
-shadowchar-backend/src/
-├── app.module.ts           # Módulo principal
-├── main.ts                 # Ponto de entrada
-└── characters/             # Módulo de personagens
-    ├── characters.controller.ts
-    ├── characters.service.ts
-    ├── characters.module.ts
-    ├── dto/                # Data Transfer Objects
-    │   ├── create-character.dto.ts
-    │   └── update-character.dto.ts
-    └── entities/           # Entidades de domínio
-        └── character.entity.ts
-```
-
-### **Frontend Structure**
-```
-shadowchar-frontend/src/app/
-├── app.ts                  # Componente raiz
-├── app.routes.ts           # Configuração de rotas
-├── features/               # Features da aplicação
-│   ├── character.ts        # Service de personagens
-│   └── character-list/     # Componente de listagem
-│       ├── character-list.ts
-│       └── character-list.html
-└── layout/                 # Componentes de layout
-    └── header/
-        ├── header.ts
-        └── header.html
-```
-
-## 🧪 Testes
-
 ### **Backend**
-```bash
-cd shadowchar-backend
 
-# Testes unitários
-npm run test
-
-# Testes e2e
-npm run test:e2e
-
-# Cobertura de testes
-npm run test:cov
-```
+* **Framework:** [NestJS](https://nestjs.com/)
+* **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+* **Banco de Dados / ORM:** [PostgreSQL](https://www.postgresql.org/) com [Prisma](https://www.prisma.io/)
+* **Autenticação:** [Passport.js](http://www.passportjs.org/) (Estratégias Local e JWT)
+* **Documentação da API:** [Swagger (OpenAPI)](https://swagger.io/)
 
 ### **Frontend**
-```bash
-cd shadowchar-frontend
 
-# Testes unitários
-ng test
-```
+* **Framework:** [Angular](https://angular.dev/)
+* **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+* **UI/UX:** [Angular Material](https://material.angular.io/)
+* **Gerenciamento de Estado:** [RxJS](https://rxjs.dev/)
 
-## 📦 Scripts Disponíveis
+#### **Ferramentas e Infraestrutura**
 
-### **Backend**
-- `npm run start:dev` - Execução em modo desenvolvimento
-- `npm run build` - Build para produção
-- `npm run test` - Execução dos testes
-- `npm run lint` - Verificação de código
+* **Containerização:** [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/)
+* **Controle de Versão:** [Git](https://git-scm.com/) & [GitHub](https://github.com)
+* **Gerenciamento de Projeto:** [JIRA](https://www.atlassian.com/software/jira)
 
-### **Frontend**
-- `ng serve` - Servidor de desenvolvimento
-- `ng build` - Build para produção
-- `ng test` - Execução dos testes
-- `ng generate` - Geração de código
+## ✅ Funcionalidades Implementadas
 
-## 🎯 Próximos Passos
+* **Autenticação de Usuários Completa:**
+  * [x] Registro de novas contas com e-mail e senha.
+  * [x] Login seguro com geração de token JWT.
+  * [x] Proteção de rotas no backend e no frontend (Guards).
+  * [x] Envio automático de token em requisições (HTTP Interceptor).
+  * [x] Página de perfil para visualizar dados do usuário logado.
+  * [x] Funcionalidade de Logout.
 
-1. **Implementar modelo completo de personagem**
-   - Atributos (Força, Agilidade, Intelecto, Vontade)
-   - Características derivadas (Vida, Insanidade, Defesa, Velocidade)
-   - Ancestralidade e caminhos
+* **Gerenciamento de Personagens (CRUD Completo):**
+  * [x] Criação, visualização, edição e deleção de personagens.
+  * [x] **Multitenancy:** Cada usuário só pode ver e gerenciar seus próprios personagens.
 
-2. **Adicionar persistência**
-   - Configurar banco de dados (PostgreSQL/MongoDB)
-   - Implementar repositories e entities
+* **Ficha de Personagem Automatizada:**
+  * [x] Cálculo e exibição de atributos derivados (Vida, Defesa, etc.).
+  * [x] Gerenciamento de Talentos (adicionar e listar).
 
-3. **Criar wizard de criação de personagens**
-   - Fluxo step-by-step
-   - Validações de regras
-   - Cálculos automáticos
+* **API e Documentação:**
+  * [x] API RESTful segura e bem estruturada.
+  * [x] Documentação interativa da API com Swagger UI.
 
-4. **Sistema de autenticação**
-   - Registro e login de usuários
-   - Gerenciamento de sessões
-   - Proteção de rotas
+* **Interface de Usuário (UI/UX):**
+  * [x] Interface moderna e responsiva com Angular Material.
+  * [x] Notificações "toast" para feedback de ações do usuário.
+  * [x] Layout consistente com tema, cards e componentes profissionais.
 
-## 🤝 Contribuindo
+## 📝 Funcionalidades Planejadas (Roadmap)
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+* [ ] Gerenciamento de Magias.
+* [ ] Gerenciamento de Inventário.
+* [ ] Assistente de criação de personagem passo a passo (Wizard).
+* [ ] Implementação de Refresh Tokens para sessão persistente.
+* [ ] Sistema de Níveis e Caminhos (Novato, Experiente, Mestre).
+* [ ] Exportação da ficha de personagem para PDF/JSON.
 
-## 📝 Licença
+## 🏁 Começando (Getting Started)
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Siga os passos abaixo para configurar e rodar o projeto localmente.
 
-## 📚 Recursos Úteis
+### Pré-requisitos
 
-- [Shadow of the Demon Lord RPG](https://schwalbentertainment.com/shadow-of-the-demon-lord/)
-- [Documentação do NestJS](https://docs.nestjs.com/)
-- [Documentação do Angular](https://angular.dev/)
-- [Guia de TypeScript](https://www.typescriptlang.org/docs/)
+* [Node.js](https://nodejs.org/) (versão 20.x ou superior)
+* [Docker](https://www.docker.com/products/docker-desktop/) e Docker Compose
+* [Angular CLI](https://angular.dev/cli) (`npm install -g @angular/cli`)
+* [NestJS CLI](https://docs.nestjs.com/cli/overview) (`npm install -g @nestjs/cli`)
+
+### Configuração do Backend
+
+1. **Navegue até a pasta do backend:**
+
+    ```bash
+    cd shadowchar-backend
+    ```
+
+2. **Crie e configure as variáveis de ambiente:**
+    * Crie uma cópia do arquivo de exemplo: `cp .env.example .env` (Você precisará criar o arquivo `.env.example` primeiro).
+    * Preencha as variáveis no arquivo `.env`, como `DATABASE_URL` e `JWT_SECRET`.
+3. **Inicie o banco de dados com Docker:**
+    * A partir da pasta **raiz** do projeto (`shadowchar-project`), rode:
+
+    ```bash
+    docker compose up -d
+    ```
+
+4. **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+5. **Execute as migrações do banco de dados:**
+
+    ```bash
+    npx prisma migrate dev
+    ```
+
+6. **Inicie o servidor do backend:**
+
+    ```bash
+    npm run start:dev
+    ```
+
+    * A API estará rodando em `http://localhost:3000`.
+
+### Configuração do Frontend
+
+1. **Navegue até a pasta do frontend (em um novo terminal):**
+
+    ```bash
+    cd shadowchar-frontend
+    ```
+
+2. **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+3. **Inicie o servidor do frontend:**
+
+    ```bash
+    ng serve
+    ```
+
+    * A aplicação estará acessível em `http://localhost:4200`.
+
+## 📖 Documentação da API
+
+Com o servidor do backend rodando, a documentação interativa da API (Swagger UI) está disponível em:
+[http://localhost:3000/api](http://localhost:3000/api)
