@@ -1,13 +1,20 @@
 <h4>Talentos</h4>
 
-@if (talents$ | async; as talents) {
+@if (characterTalents$ | async; as characterTalents) {
   <ul class="talent-list">
-    @for (talent of talents; track talent.id) {
+    @for (ct of characterTalents; track ct.id) {
       <li>
-        <strong>{{ talent.name }}</strong>
-        @if (talent.description) {
-          <p>{{ talent.description }}</p>
-        }
+        <div class="talent-item">
+          <div>
+            <strong>{{ ct.talent.name }}</strong> (Tier: {{ ct.talent.tier }})
+            @if (ct.talent.description) {
+              <p>{{ ct.talent.description }}</p>
+            }
+          </div>
+          <button (click)="onRemoveTalent(ct.talent.id)" class="remove-btn">
+            &times;
+          </button>
+        </div>
       </li>
     } @empty {
       <p>Nenhum talento adicionado ainda.</p>
@@ -19,15 +26,25 @@
 
 <hr />
 
-<h5>Adicionar Novo Talento</h5>
+<h5>Adicionar Talento</h5>
 <form [formGroup]="talentForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="talent-name">Nome:</label>
-    <input id="talent-name" type="text" formControlName="name" />
-  </div>
-  <div>
-    <label for="talent-desc">Descrição:</label>
-    <textarea id="talent-desc" formControlName="description"></textarea>
-  </div>
+  @if (availableTalents$ | async; as availableTalents) {
+    <div>
+      <label for="talent-select">Escolha um Talento:</label>
+      <select id="talent-select" formControlName="talentId">
+        <option [ngValue]="null" disabled>Selecione...</option>
+        @for (talent of availableTalents; track talent.id) {
+          <option
+            [ngValue]="talent.id"
+            [disabled]="!talent.available"
+            [title]="talent.available ? '' : talent.reason"
+          >
+            {{ talent.name }} {{ !talent.available ? '(Indisponível)' : '' }}
+          </option>
+        }
+      </select>
+    </div>
+  }
+
   <button type="submit" [disabled]="!talentForm.valid">Adicionar</button>
 </form>

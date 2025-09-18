@@ -3,7 +3,7 @@ import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Character } from './entities/character.entity';
-import { Character as CharacterModel } from 'generated/prisma';
+import { Character as CharacterModel } from '@prisma/client';
 
 @Injectable()
 export class CharactersService {
@@ -40,13 +40,14 @@ export class CharactersService {
     };
   }
 
-  create(createCharacterDto: CreateCharacterDto, userId: number) {
-    return this.prisma.character.create({
+  async create(createCharacterDto: CreateCharacterDto, userId: number) {
+    const character = await this.prisma.character.create({
       data: {
         ...createCharacterDto,
         ownerId: userId,
       },
     });
+    return this.mapToEntity(character);
   }
 
   findAll(userId: number) {
@@ -85,8 +86,13 @@ export class CharactersService {
     // Garante que o usuário é o dono do personagem antes de listar os talentos
     await this.getCharacterOwner(characterId, userId);
 
-    return this.prisma.talent.findMany({
-      where: { characterId: characterId },
+    return this.prisma.characterTalent.findMany({
+      where: {
+        characterId: characterId
+      },
+      include: {
+        talent: true // Pede ao Prisma para trazer os detalhes do talento relacionado
+      }
     });
   }
 }

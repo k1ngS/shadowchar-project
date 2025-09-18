@@ -16,52 +16,37 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('talents')
-@UseGuards(AuthGuard('jwt'))
-@Controller('characters/:characterId/talents')
+@ApiTags('Talents (Master List)') // Tag para o Swagger
+@UseGuards(AuthGuard('jwt')) // Protege as rotas, idealmente seria um guard de Admin
+@Controller('talents') // Rota base para o catálogo de talentos
 export class TalentsController {
   constructor(private readonly talentsService: TalentsService) {}
 
   @Post()
-  create(
-    @Param('characterId', ParseIntPipe) characterId: number,
-    @GetUser('sub') userId: number,
-    @Body() createTalentDto: CreateTalentDto,
-  ) {
-    return this.talentsService.create(createTalentDto, characterId, userId);
+  create(@Body() createTalentDto: CreateTalentDto) {
+    return this.talentsService.create(createTalentDto);
   }
 
   @Get()
-  findAll(
-    @Param('characterId', ParseIntPipe) characterId: number,
-    @GetUser('sub') userId: number,
-  ) {
-    return this.talentsService.findAll(characterId, userId);
+  findAll() {
+    return this.talentsService.findAll();
   }
 
-  @Get(':talentId')
-  findOne(
-    // Note que não precisamos do characterId aqui, pois a validação é feita pelo talentId
-    @Param('talentId', ParseIntPipe) talentId: number,
-    @GetUser('sub') userId: number,
-  ) {
-    return this.talentsService.findOne(talentId, userId);
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.talentsService.findOne(id);
   }
 
-  @Patch(':talentId')
+  @Patch(':id')
   update(
-    @Param('talentId', ParseIntPipe) talentId: number,
-    @GetUser('sub') userId: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateTalentDto: UpdateTalentDto,
   ) {
-    return this.talentsService.update(talentId, updateTalentDto, userId);
+    return this.talentsService.update(id, updateTalentDto);
   }
 
-  @Delete(':talentId')
-  remove(
-    @Param('talentId', ParseIntPipe) talentId: number,
-    @GetUser('sub') userId: number,
-  ) {
-    return this.talentsService.remove(talentId, userId);
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.talentsService.remove(id);
   }
 }

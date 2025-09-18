@@ -9,100 +9,41 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class TalentsService {
-  constructor(private prisma: PrismaService) {}
+   constructor(private prisma: PrismaService) {}
 
-  /**
-   * Verifica se o personagem pertence ao usuário logado.
-   * Lança 404 se o personagem não existe, e 403 se não pertence ao usuário.
-   */
-  private async verifyCharacterOwnership(characterId: number, userId: number) {
-    const character = await this.prisma.character.findUnique({
-      where: { id: characterId },
+  // Cria um novo talento no catálogo geral do jogo
+  create(createTalentDto: CreateTalentDto) {
+    return this.prisma.talent.create({
+      data: createTalentDto,
     });
-
-    if (!character) {
-      throw new NotFoundException(
-        `Personagem com ID #${characterId} não encontrado.`,
-      );
-    }
-
-    if (character.ownerId !== userId) {
-      throw new ForbiddenException(
-        'Você não tem permissão para gerenciar os talentos deste personagem.',
-      );
-    }
   }
 
-  /**
-   * Busca um talento específico e garante que ele pertence a um personagem do usuário.
-   */
-  private async findTalentAndVerifyOwnership(talentId: number, userId: number) {
-    const talent = await this.prisma.talent.findUnique({
-      where: { id: talentId },
-      include: { character: true }, // Inclui o personagem para checar o dono
-    });
+  // Lista todos os talentos disponíveis no jogo
+  findAll() {
+    return this.prisma.talent.findMany();
+  }
 
+  // Encontra um talento específico pelo seu ID
+  async findOne(id: number) {
+    const talent = await this.prisma.talent.findUnique({ where: { id } });
     if (!talent) {
-      throw new NotFoundException(`Talento com ID #${talentId} não encontrado.`);
+      throw new NotFoundException(`Talento com ID #${id} não encontrado.`);
     }
-
-    if (talent.character.ownerId !== userId) {
-      throw new ForbiddenException('Acesso negado a este recurso.');
-    }
-
     return talent;
   }
 
-  async create(
-    createTalentDto: CreateTalentDto,
-    characterId: number,
-    userId: number,
-  ) {
-    // Garante que o usuário é dono do personagem antes de criar um talento
-    await this.verifyCharacterOwnership(characterId, userId);
-
-    return this.prisma.talent.create({
-      data: {
-        ...createTalentDto,
-        characterId: characterId,
-      },
-    });
-  }
-
-  async findAll(characterId: number, userId: number) {
-    // Garante que o usuário é dono do personagem antes de listar os talentos
-    await this.verifyCharacterOwnership(characterId, userId);
-
-    return this.prisma.talent.findMany({
-      where: { characterId: characterId },
-    });
-  }
-
-  async findOne(talentId: number, userId: number) {
-    // Garante que o usuário é o dono do personagem ao qual o talento pertence
-    return this.findTalentAndVerifyOwnership(talentId, userId);
-  }
-
-  async update(
-    talentId: number,
-    updateTalentDto: UpdateTalentDto,
-    userId: number,
-  ) {
-    // Garante a propriedade antes de atualizar
-    await this.findTalentAndVerifyOwnership(talentId, userId);
-
+  // Atualiza um talento no catálogo
+  async update(id: number, updateTalentDto: UpdateTalentDto) {
+    await this.findOne(id); // Garante que o talento existe antes de atualizar
     return this.prisma.talent.update({
-      where: { id: talentId },
+      where: { id },
       data: updateTalentDto,
     });
   }
 
-  async remove(talentId: number, userId: number) {
-    // Garante a propriedade antes de deletar
-    await this.findTalentAndVerifyOwnership(talentId, userId);
-
-    return this.prisma.talent.delete({
-      where: { id: talentId },
-    });
+  // Remove um talento do catálogo
+  async remove(id: number) {
+    await this.findOne(id); // Garante que o talento existe antes de remover
+    return this.prisma.talent.delete({ where: { id } });
   }
 }

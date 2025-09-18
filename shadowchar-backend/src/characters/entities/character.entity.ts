@@ -1,9 +1,10 @@
-import { type Character as CharacterModel } from 'generated/prisma';
+import { type Character as CharacterModel } from '@prisma/client';
 
 export class Character implements CharacterModel {
   id: number;
   name: string;
   ancestry: string;
+  level: number;
   strength: number;
   agility: number;
   intellect: number;

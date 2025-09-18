@@ -6,6 +6,7 @@ export interface Character {
   id: number;
   name: string;
   ancestry: string;
+  level: number;
 
   strength?: number;
   agility?: number;
