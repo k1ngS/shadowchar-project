@@ -13,6 +13,7 @@ import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('characters')
@@ -20,36 +21,36 @@ export class CharactersController {
   constructor(private readonly charactersService: CharactersService) {}
 
   @Post()
-  create(@Request() req, @Body() createCharacterDto: CreateCharacterDto) {
-    const userId = req.user.userId;
+  create(
+    @GetUser('sub') userId: number,
+    @Body() createCharacterDto: CreateCharacterDto
+  ) {
     return this.charactersService.create(createCharacterDto, userId);
   }
 
   @Get()
-  findAll(@Request() req) {
-    const userId = req.user.userId;
+  findAll(@GetUser('sub') userId: number  ) {
     return this.charactersService.findAll(userId);
   }
 
   @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    const userId = req.user.userId;
+  findOne(@GetUser('sub') userId: number, @Param('id') id: string) {
     return this.charactersService.findOne(+id, userId);
   }
 
   @Patch(':id')
   update(
-    @Request() req,
+    @GetUser('sub') userId: number,
     @Param('id') id: string,
     @Body() updateCharacterDto: UpdateCharacterDto,
   ) {
-    const userId = req.user.userId;
     return this.charactersService.update(+id, updateCharacterDto, userId);
   }
 
   @Delete(':id')
-  remove(@Request() req, @Param('id') id: string) {
-    const userId = req.user.userId;
+  remove(
+    @GetUser('sub') userId: number,
+    @Param('id') id: string) {
     return this.charactersService.remove(+id, userId);
   }
 }

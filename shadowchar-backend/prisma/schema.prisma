@@ -22,6 +22,17 @@ model User {
   updatedAt DateTime @updatedAt
 
   characters Character[]
+
+  refreshToken RefreshToken?
+}
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  hashedToken String   @unique
+  userId      Int      @unique // Um usuário só pode ter um refresh token ativo por vez
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Character {
@@ -49,6 +60,6 @@ model Talent {
   name        String
   description String?
 
-  character   Character @relation(fields: [characterId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
   characterId Int
 }

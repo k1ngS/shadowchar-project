@@ -40,16 +40,20 @@ export class Login {
 
   onSubmit(): void {
     this.errorMessage = null;
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/characters']);
-        },
-        error: (err) => {
-          this.errorMessage = 'E-mail ou senha inválidos. Tente novamente.';
-          this.notificationService.showError(this.errorMessage);
-        },
-      });
+
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/characters']);
+      },
+      error: (err) => {
+        console.error('Login error:', err);
+        this.errorMessage = 'E-mail ou senha inválidos. Tente novamente.';
+        this.notificationService.showError(this.errorMessage);
+      },
+    });
   }
 }

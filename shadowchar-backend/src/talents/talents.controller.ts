@@ -1,9 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
-import { TalentsService } from "./talents.service";
-import { CreateTalentDto } from "./dto/create-talent.dto";
-import { UpdateTalentDto } from "./dto/update-talent.dto";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { TalentsService } from './talents.service';
+import { CreateTalentDto } from './dto/create-talent.dto';
+import { UpdateTalentDto } from './dto/update-talent.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('talents')
 @UseGuards(AuthGuard('jwt'))
@@ -13,32 +24,44 @@ export class TalentsController {
 
   @Post()
   create(
-    @Param('characterId') characterId: string,
-    @Request() req,
+    @Param('characterId', ParseIntPipe) characterId: number,
+    @GetUser('sub') userId: number,
     @Body() createTalentDto: CreateTalentDto,
   ) {
-    const userId = req.user.userId;
-    return this.talentsService.create(createTalentDto, +characterId, userId);
+    return this.talentsService.create(createTalentDto, characterId, userId);
   }
 
   @Get()
-  findAll(@Param('characterId') characterId: string, @Request() req) {
-    const userId = req.user.userId;
-    return this.talentsService.findAll(+characterId, userId);
+  findAll(
+    @Param('characterId', ParseIntPipe) characterId: number,
+    @GetUser('sub') userId: number,
+  ) {
+    return this.talentsService.findAll(characterId, userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.talentsService.findOne(+id);
+  @Get(':talentId')
+  findOne(
+    // Note que não precisamos do characterId aqui, pois a validação é feita pelo talentId
+    @Param('talentId', ParseIntPipe) talentId: number,
+    @GetUser('sub') userId: number,
+  ) {
+    return this.talentsService.findOne(talentId, userId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTalentDto: UpdateTalentDto) {
-    return this.talentsService.update(+id, updateTalentDto);
+  @Patch(':talentId')
+  update(
+    @Param('talentId', ParseIntPipe) talentId: number,
+    @GetUser('sub') userId: number,
+    @Body() updateTalentDto: UpdateTalentDto,
+  ) {
+    return this.talentsService.update(talentId, updateTalentDto, userId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.talentsService.remove(+id);
+  @Delete(':talentId')
+  remove(
+    @Param('talentId', ParseIntPipe) talentId: number,
+    @GetUser('sub') userId: number,
+  ) {
+    return this.talentsService.remove(talentId, userId);
   }
 }
