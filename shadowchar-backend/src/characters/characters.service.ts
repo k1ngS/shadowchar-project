@@ -40,25 +40,26 @@ export class CharactersService {
     };
   }
 
-  async create(createCharacterDto: CreateCharacterDto, userId: number) {
-    const character = await this.prisma.character.create({
+  create(createCharacterDto: CreateCharacterDto, userId: number) {
+    return this.prisma.character.create({
       data: {
         ...createCharacterDto,
         ownerId: userId,
-      },
-    });
-    return this.mapToEntity(character);
+      }
+    })
   }
 
-  findAll(userId: number) {
-    return this.prisma.character.findMany({
+  async findAll(userId: number) {
+    const charactersFromDb = await this.prisma.character.findMany({
       where: { ownerId: userId },
     });
+    return charactersFromDb.map(this.mapToEntity);
   }
 
   async findOne(id: number, userId: number) {
     // Agora usa nosso método seguro
-    return this.getCharacterOwner(id, userId);
+    const charactersFromDb = this.getCharacterOwner(id, userId);
+    return this.mapToEntity(await charactersFromDb);
   }
 
   async update(

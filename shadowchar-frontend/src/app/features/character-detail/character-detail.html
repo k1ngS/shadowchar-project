@@ -8,22 +8,20 @@
       <mat-card-content>
         <div class="stats-grid">
           <div>
-            <h3>Atributos Derivados</h3>
-            <mat-list role="list">
-              <mat-list-item role="listitem">Vida: {{ char.health }}</mat-list-item>
-              <mat-list-item role="listitem">Defesa: {{ char.defense }}</mat-list-item>
-              <mat-list-item role="listitem">Insanidade: {{ char.insanity }}</mat-list-item>
-              <mat-list-item role="listitem">Corrupção: {{ char.corruption }}</mat-list-item>
-            </mat-list>
+            <h3>Atributos Base</h3>
+            <p>Força: {{ char.strength }}</p>
+            <p>Agilidade: {{ char.agility }}</p>
+            <p>Vontade: {{ char.will }}</p>
           </div>
+
+          <hr>
+
           <div>
-            <h3>Atributos Principais</h3>
-            <mat-list role="list">
-              <mat-list-item role="listitem">Força: {{ char.strength }}</mat-list-item>
-              <mat-list-item role="listitem">Agilidade: {{ char.agility }}</mat-list-item>
-              <mat-list-item role="listitem">Intelecto: {{ char.intellect }}</mat-list-item>
-              <mat-list-item role="listitem">Vontade: {{ char.will }}</mat-list-item>
-            </mat-list>
+            <h3>Atributos Calculados</h3>
+            <p>Vida: {{ char.health }}</p>
+            <p>Defesa: {{ char.defense }}</p>
+            <p>Insanidade: {{ char.insanity }}</p>
+            <p>Corrupção: {{ char.corruption }}</p>
           </div>
         </div>
 

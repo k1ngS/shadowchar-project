@@ -8,15 +8,15 @@ export interface Character {
   ancestry: string;
   level: number;
 
-  strength?: number;
-  agility?: number;
-  intellect?: number;
-  will?: number;
+  strength: number;
+  agility: number;
+  intellect: number;
+  will: number;
 
-  health?: number;
-  insanity?: number;
-  corruption?: number;
-  defense?: number;
+  health: number;
+  insanity: number;
+  corruption: number;
+  defense: number;
 }
 
 @Injectable({
